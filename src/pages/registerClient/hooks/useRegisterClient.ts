@@ -10,7 +10,8 @@ export default function useRegisterClient() {
     documentNumber: '',
     email: '',
     phoneNumber: '',
-    address: ''
+    address: '',
+    dateBirth: ''
   }
   const [loading, setLoading] = useState(false)
   const [clientForm, setClientForm] = useState(initialState)
