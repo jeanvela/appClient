@@ -1,18 +1,18 @@
 import './App.css'
-import Navbar from './components/Navbar'
-// import RegisterClient from './components/RegisterClient'
-import SideBar from './components/SiedeBar'
-import Clients from './pages/Clients'
+import RegisterClient from '@/pages/registerClient/RegisterClient'
+import { Toaster } from 'sonner'
 
 function App() {
   return (
-    // <RegisterClient />
     <>
-      <Navbar />
-      <main className='min-h-dvh flex'>
-        <SideBar />
-        <Clients />
-      </main>
+      <RegisterClient />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          className: '',
+          duration: 6000,
+        }}
+      />
     </>
   )
 }

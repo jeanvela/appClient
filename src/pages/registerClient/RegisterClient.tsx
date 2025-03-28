@@ -1,16 +1,21 @@
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
+import useRegisterClient from "./hooks/useRegisterClient"
 
 export default function RegisterClient() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const {
+    loading,
+    handleChange,
+    submit,
+    clientForm
+  } = useRegisterClient()
 
   return (
-    <div className="container mx-auto py-10">
-      <Card className="max-w-2xl mx-auto">
+    <div className="w-full min-h-dvh p-4 flex items-center justify-center">
+      <Card className="max-w-2xl">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Registro de Cliente</CardTitle>
           <CardDescription className="text-center">
@@ -19,15 +24,29 @@ export default function RegisterClient() {
         </CardHeader>
         <CardContent>
           {/* <Form {...form}> */}
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={submit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-2">
                   <Label>Nombres</Label>
-                  <Input />
+                  <Input
+                    type='text'
+                    value={clientForm.firstName}
+                    name='firstName'
+                    id='firstName'
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
                 </div>
                 <div className="flex flex-col gap-2">
                   <Label>Apellidos</Label>
-                  <Input />
+                  <Input
+                    type='text'
+                    value={clientForm.lastName}
+                    name='lastName'
+                    id='lastName'
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
                 </div>
               </div>
 
@@ -48,27 +67,58 @@ export default function RegisterClient() {
                 </div>
                 <div className="flex flex-col gap-2">
                   <Label>Número de Documento</Label>
-                  <Input />
+                  <Input
+                    type='text'
+                    value={clientForm.documentNumber}
+                    onChange={handleChange}
+                    disabled={loading}
+                    name='documentNumber'
+                    id='documentNumber'
+                  />
                 </div>
               </div>
 
               <div className="flex flex-col gap-2">
                 <Label>Email</Label>
-                <Input type="email"/>
+                <Input
+                  type='email'
+                  value={clientForm.email}
+                  onChange={handleChange}
+                  disabled={loading}
+                  name='email'
+                  id='email'  
+                />
               </div>
 
               <div className="flex flex-col gap-2">
                 <Label>Teléfono</Label>
-                <Input />
+                <Input
+                  type='text'
+                  value={clientForm.phoneNumber}
+                  onChange={handleChange}
+                  disabled={loading}
+                  name='phoneNumber'
+                  id='phoneNumber'
+                />
               </div>
 
               <div className="flex flex-col gap-2">
                 <Label>Dirección</Label>
-                <Input />
+                <Input
+                  type='text'
+                  value={clientForm.address}
+                  name='address'
+                  id='address'
+                  onChange={handleChange}
+                  disabled={loading}
+                />
               </div>
 
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? "Enviando..." : "Registrarse"}
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={loading}>
+                {loading ? "Enviando..." : "Registrarse"}
               </Button>
             </form>
           {/* </Form> */}
