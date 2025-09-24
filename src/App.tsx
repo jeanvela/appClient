@@ -1,11 +1,11 @@
 import './App.css'
-import RegisterClient from '@/pages/registerClient/RegisterClient'
 import { Toaster } from 'sonner'
+import RegisterQR from './pages/registerQR/RegisterQR'
 
 function App() {
   return (
     <>
-      <RegisterClient />
+      <RegisterQR/>
       <Toaster
         position="top-right"
         toastOptions={{

@@ -1,8 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from "react"
 import { createClient } from "../services/leparis"
 import { toast } from "sonner"
+import QRCode from 'qrcode'
 
-export default function useRegisterClient() {
+
+export default function useRegisterQR() {
   const initialState = {
     firstName: '',
     lastName: '',
@@ -10,11 +12,11 @@ export default function useRegisterClient() {
     documentNumber: '',
     email: '',
     phoneNumber: '',
-    address: '',
-    dateBirth: ''
+    address: ''
   }
   const [loading, setLoading] = useState(false)
   const [clientForm, setClientForm] = useState(initialState)
+  const [qr, setQr] = useState<string | null>(null)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -55,6 +57,7 @@ export default function useRegisterClient() {
   }
 
   async function submit(e: FormEvent<HTMLFormElement>) {
+    console.log('Submit')
     e.preventDefault()
     setLoading(true)
     if (!validate()) {
@@ -64,21 +67,30 @@ export default function useRegisterClient() {
 
     const { ok, data } = await createClient(clientForm)
 
-    console.log(data)
-
+    console.log('data',data)
     if (!ok) {
       toast.error(data.message)
       setLoading(false)
       return
     }
 
+    const urlBase = 'https://zpm9ntbq-5173.brs.devtunnels.ms' // https://zpm9ntbq-5173.brs.devtunnels.ms/
+
+    const url = await QRCode.toDataURL(`${urlBase}/qrs/${data.data}`, { width: 250, margin: 1 })
+
+    setQr(url)
+
     toast.success('Registro exitoso')
+    setLoading(false)
+    return
   }
 
   return {
     loading,
     submit,
     handleChange,
-    clientForm
+    clientForm,
+    setClientForm,
+    qr
   }
 }
